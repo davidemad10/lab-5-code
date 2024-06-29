@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>json</title>
+  </head>
+  <body>
+    <script>
+        const students = [
+      {
+      id: 1,
+      name: "David Emad",
+      age: 24,
+      address: "5st salahsalem, cairo, Egypt",
+      skills: ["JavaScript", "HTML", "CSS"],
+      isLeader: false
+      },
+      {
+      id: 2,
+      name: "Ahmed ibrahim",
+      age: 25,
+      address: null,
+      skills: ["Python", "Django", "Flask"],
+      isLeader: false
+      },
+      {
+      id: 3,
+      name: "Abanoub medhat",
+      age: 29,
+      address: "4st hamdybasha, Alex, Egypt",
+      skills: ["Java", "Spring", "Angulur"],
+      isLeader: true
+      }
+      ];
+      students.forEach(student => {
+      console.log(`Name: ${student.name}`);
+      console.log("Skills:");
+      student.skills.forEach(skill => {
+      console.log(`- ${skill}`);
+      }); 
+      });
+
+    </script>
+  </body>
+</html>

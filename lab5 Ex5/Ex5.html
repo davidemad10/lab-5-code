@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Data Display</title>
+</head>
+<body>
+    <h1>User Data Display</h1>
+    
+    <div>
+        <label for="userId">Enter User ID:</label>
+        <input type="number" id="userId" name="userId">
+        <button onclick="displayUserById()">Display</button>
+    </div>
+    
+    <div id="userDisplay">
+        <h2>User Info</h2>
+        <p id="firstName"></p>
+        <p id="lastName"></p>
+        <img id="avatar" alt="User Avatar" style="display:none;">
+    </div>
+    
+    <hr>
+    
+    <div>
+        <label for="userDropdown">Select User:</label>
+        <select id="userDropdown" onchange="displaySelectedUser()">
+            <option value="">--Select a User--</option>
+        </select>
+    </div>
+    
+    <div id="dropdownUserDisplay">
+        <h2>Selected User Info</h2>
+        <p id="dropdownFirstName"></p>
+        <p id="dropdownLastName"></p>
+        <img id="dropdownAvatar" alt="User Avatar" style="display:none;">
+    </div>
+    
+    <script>
+        function displayUserById() {
+            const userId = document.getElementById('userId').value;
+            fetch(`https://reqres.in/api/users/${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.data) {
+                        document.getElementById('firstName').textContent = `First Name: ${data.data.first_name}`;
+                        document.getElementById('lastName').textContent = `Last Name: ${data.data.last_name}`;
+                        const avatar = document.getElementById('avatar');
+                        avatar.src = data.data.avatar;
+                        avatar.style.display = 'block';
+                    } else {
+                        alert('User not found');
+                    }
+                })
+                .catch(error => console.error('Error fetching user:', error));
+        }
+        function populateDropdown() {
+            fetch('https://reqres.in/api/users')
+                .then(response => response.json())
+                .then(data => {
+                    const userDropdown = document.getElementById('userDropdown');
+                    data.data.forEach(user => {
+                        const option = document.createElement('option');
+                        option.value = user.id;
+                        option.textContent = `${user.first_name} ${user.last_name}`;
+                        userDropdown.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching users:', error));
+        }
+        
+        function displaySelectedUser() {
+            const userId = document.getElementById('userDropdown').value;
+            if (userId) {
+                fetch(`https://reqres.in/api/users/${userId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.data) {
+                            document.getElementById('dropdownFirstName').textContent = `First Name: ${data.data.first_name}`;
+                            document.getElementById('dropdownLastName').textContent = `Last Name: ${data.data.last_name}`;
+                            const avatar = document.getElementById('dropdownAvatar');
+                            avatar.src = data.data.avatar;
+                            avatar.style.display = 'block';
+                        }
+                    })
+                    .catch(error => console.error('Error fetching user:', error));
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', populateDropdown);
+    </script>
+</body>
+</html>

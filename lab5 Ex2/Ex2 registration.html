@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="Ex2.css">
+    <title>Login Form</title>
+</head>
+<body>
+    <div class="registration-container">
+        <form id="loginForm" action="Ex2 thankyou.html" method="get">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br><br>
+    
+            <label for="loginPassword">Password:</label>
+            <input type="password" id="loginPassword" name="loginPassword" required><br><br>
+            
+            <label for="rememberMe">
+                <input type="checkbox" id="rememberMe" name="rememberMe"> Remember Me
+            </label><br><br>
+
+            <button type="button" onclick="login()">Login</button>
+        </form>
+    
+    </div>
+    <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            const storedUsername = localStorage.getItem('username');
+            const storedPassword = localStorage.getItem('password');
+            const rememberMe = localStorage.getItem('rememberMe') === 'true';
+            
+            if (storedUsername && rememberMe) {
+                document.getElementById('username').value = storedUsername;
+            }
+            if (storedPassword && rememberMe) {
+                document.getElementById('loginPassword').value = storedPassword;
+            }
+            document.getElementById('rememberMe').checked = rememberMe;
+        });
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            if (rememberMe) {
+                localStorage.setItem('username', username);
+                localStorage.setItem('password', password);
+                localStorage.setItem('rememberMe', true);
+            } else {
+                localStorage.removeItem('username');
+                localStorage.removeItem('password');
+                localStorage.setItem('rememberMe', false);
+            }
+
+            document.getElementById('loginForm').submit();
+        }
+    </script>
+</body>
+</html>
